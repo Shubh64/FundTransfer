@@ -1,0 +1,7 @@
+{
+  "name": "fund transfer",
+  "short_name": "fund transfer",
+  "description": "transaction app",
+  "start_url": "/",
+  "display": "standalone"
+}

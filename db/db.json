@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": 1,
+"customerName":"Shubh",
+"customerAccountNumber":"1234",
+"address":"G795",
+"phoneNumber":"1234567890",
+"email": "String",
+"ifsc":"String",
+"accountType":"String",
+"password": "123",
+"totalSavings": "567"
+    }
+  ]
+}

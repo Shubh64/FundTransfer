@@ -2,15 +2,73 @@
   "users": [
     {
       "id": 1,
-"customerName":"Shubh",
-"customerAccountNumber":"1234",
-"address":"G795",
-"phoneNumber":"1234567890",
-"email": "String",
-"ifsc":"String",
-"accountType":"String",
-"password": "123",
-"totalSavings": "567"
+      "customerName": "Shubh",
+      "customerAccountNumber": "1234",
+      "address": "G795",
+      "phoneNumber": "1234567890",
+      "email": "String",
+      "ifsc": "String",
+      "accountType": "String",
+      "password": "123",
+      "totalSavings": 1400
+    },
+    {
+      "id": 2,
+      "customerName": "Sandy",
+      "customerAccountNumber": "5678",
+      "address": "G795",
+      "phoneNumber": "9834567890",
+      "email": "String",
+      "ifsc": "HDFC001",
+      "accountType": "Saving",
+      "password": "123",
+      "totalSavings": 4600
+    }
+  ],
+  "beneficiary": [
+    {
+      "beneficiaryName": "Sandy",
+      "beneficiaryAccountNumber": "5678",
+      "customerAccountNumber": "1234",
+      "id": 1
+    },
+    {
+      "beneficiaryName": "Shubh",
+      "beneficiaryAccountNumber": "1234",
+      "customerAccountNumber": "5678",
+      "id": 2
+    },
+    {
+      "beneficiaryName": "Amit",
+      "beneficiaryAccountNumber": "12345",
+      "customerAccountNumber": "1234",
+      "id": 3
+    },
+    {
+      "beneficiaryName": "Raja",
+      "beneficiaryAccountNumber": "12345",
+      "customerAccountNumber": "1234",
+      "id": 4
+    }
+  ],
+  "transactions": [
+    {
+      "beneficiaryName": "Amit",
+      "beneficiaryAccountNumber": "1234",
+      "amount": "100",
+      "id": 1
+    },
+    {
+      "beneficiaryName": "Sparsh",
+      "beneficiaryAccountNumber": "2343",
+      "amount": "200",
+      "id": 2
+    },
+    {
+      "beneficiaryName": "Sandy",
+      "beneficiaryAccountNumber": "1111",
+      "amount": "300",
+      "id": 3
     }
   ]
 }

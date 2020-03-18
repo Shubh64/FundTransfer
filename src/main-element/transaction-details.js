@@ -1,4 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import './ajax-call.js';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/app-route/app-location.js';
 
 /**
  * @customElement
@@ -15,6 +18,7 @@ class TransactionDetails extends PolymerElement {
         {
           border-collapse: collapse;
             width: 100%;
+            margin-top:5px;
         }
             th, td {
                       padding: 10px; 
@@ -30,28 +34,35 @@ class TransactionDetails extends PolymerElement {
                    }
                    th
                    {
-                     color:white;
+                     color:black;
                      font-weight: bolder;
                      text-align: left;
-                     background-color:gray;
+                     background-color:skyblue;
+                   }
+                   #back{
+                     background:grey;
+                     color:white;
                    }
       </style>
-      <div>
+      <div >
+      <paper-button id="back" on-click="_handleBack">Back</paper-button>
      <table>
               <th>Name</th>
               <th>Account No.</th>
-              <th>Send Money</th>
+              <th>Amount</th>
       <tbody>
           <template is="dom-repeat" items={{transactionDetails}}>
               <tr>
                   <td>{{item.beneficiaryName}}</td>
                   <td>{{item.beneficiaryAccountNumber}}</td>
-                  <td><paper-button raised id="btn" on-click=_handleTransfer>Send Money</paper-button></td>
+                  <td>{{item.amount}}</td>
               </tr>
           </template>
       </tbody>
   </table>
      </div>
+     <ajax-call id="ajax"></ajax-call>
+     <app-location route={{route}}></app-location>
     `;
   }
   static get properties() {
@@ -62,26 +73,30 @@ class TransactionDetails extends PolymerElement {
   ready()
   {
     super.ready();
-    this.addEventListener('account-details', (e) => this._transactionDetails(e))
+    this.addEventListener('ajax-response', (e) => this._transactionDetails(e))
   }
   /** 
    * call the API to fetch the data to render it on the screen
    */
   connectedCallback()
   {  super.connectedCallback();
-    //  this.$.ajax._makeAjaxCall('get',`http://10.117.189.176:9090/forxtransfer/customers/${sessionStorage.getItem('userId')}/transactions?month=02&year=2020`,null,'accountDetails')  
+    this.$.ajax._makeAjaxCall('get',`http://localhost:3000/transactions`,null,'ajaxResponse')  
   }
   //populating data in dom repeat for account details
   _transactionDetails(event){  
     console.log(event.detail.data)
-    if(event.detail.data.status==500)
-    {
-      this.$.noTransaction.innerHTML=event.detail.data.message
-    }
-    else
-    {
-    this.transactionDetails=event.detail.data
-    }
+    // if(event.detail.data.status==500)
+    // {
+    //   this.$.noTransaction.innerHTML=event.detail.data.message
+    // }
+    // else
+    // {
+    // this.transactionDetails=event.detail.data
+    // }
+    this.transactionDetails=event.detail.data;
+}
+_handleBack(){
+  this.set('route.path','/user-home');
 }
 }
 

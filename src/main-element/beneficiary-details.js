@@ -2,6 +2,9 @@ import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-input/paper-input.js';
 import './ajax-call.js';
 import '@polymer/app-route/app-location.js';
+import '@polymer/paper-toast/paper-toast.js';
+import '@polymer/paper-button/paper-button.js';
+
 /**
  * @customElement
  * @polymer
@@ -54,11 +57,12 @@ class BeneficiaryDetails extends PolymerElement {
                        margin-top:10px;
                    }
       </style>
+      <paper-button id="back" on-click="_handleBack">Back</paper-button>
       <ajax-call id="ajax"></ajax-call>
       <div id="addBeneficiary">
       <h3>Add New Beneficiary</h3>
-      <paper-input id="name" placeholder="Name"></paper-input>
-      <paper-input id="account" placeholder="Account No."></paper-input>
+      <paper-input id="name" required allowed-pattern=[a-zA-Z] placeholder="Name"></paper-input>
+      <paper-input id="account" required allowed-pattern=[0-9] placeholder="Account No."></paper-input>
       <span><paper-button raised id="addBtn" on-click=_handleAdd>Add Beneficiary</paper-button></span>
       </div>
       <app-location route={{route}}></app-location>
@@ -77,7 +81,7 @@ class BeneficiaryDetails extends PolymerElement {
           </template>
       </tbody>
   </table>
-
+<paper-toast id="toast" text={{message}}></paper-toast>
      </div>
     `;
   }
@@ -85,21 +89,24 @@ class BeneficiaryDetails extends PolymerElement {
     return {
         transactionDetails:{
             type:Array,
-            value:[{"beneficiaryName":"Lodu","beneficiaryAccountNumber":"No.1"}]
+            value:[{"beneficiaryName":"Amit","beneficiaryAccountNumber":"123"}]
         }
     };
   }
   ready()
   {
     super.ready();
-    this.addEventListener('account-details', (e) => this._transactionDetails(e))
+    this.addEventListener('beneficiary-details', (e) => this._beneficiaryDetails(e))
+    this.addEventListener('ajax-response', (e) => this._ajaxResponse(e))
   }
   /** 
    * call the API to fetch the data to render it on the screen
    */
   connectedCallback()
   {  super.connectedCallback();
-    //  this.$.ajax._makeAjaxCall('get',`http://10.117.189.176:9090/forxtransfer/customers/${sessionStorage.getItem('userId')}/transactions?month=02&year=2020`,null,'accountDetails')  
+    const {customerAccountNumber}=JSON.parse(sessionStorage.getItem('user'));
+    this.customerAccountNumber=customerAccountNumber;
+    this.$.ajax._makeAjaxCall('get',`http://localhost:3000/beneficiary?customerAccountNumber=${customerAccountNumber}`,null,'ajaxResponse')  
   }
   //populating data in dom repeat for account details
   _transactionDetails(event){  
@@ -114,14 +121,24 @@ class BeneficiaryDetails extends PolymerElement {
     }
 }
 _handleAdd(){
-    const beneficiaryName = this.$.beneficiaryName.value;
-    const beneficiaryAccountNumber=this.$.beneficiaryAccountNumber.value;
-    const {customerAccountNumber}=JSON.parse(sessionStorage.getItem('user'));
-      let postObj={beneficiaryName,beneficiaryAccountNumber,customerAccountNumber}
-      //  this.$.ajax._makeAjaxCall('post',`http://10.117.189.176:9090/forxtransfer/customers/login`,postObj,'login')  
-      }
-      _handleTransfer(){
+    const beneficiaryName = this.$.name.value;
+    const beneficiaryAccountNumber=this.$.account.value;
+      let postObj={beneficiaryName,beneficiaryAccountNumber,customerAccountNumber:this.customerAccountNumber}
+      console.log(postObj);
+     this.$.ajax._makeAjaxCall('post',`http://localhost:3000/beneficiary`,postObj,'beneficiaryDetails')  
+    this.message="added Successfully";
+    this.$.toast.open();
+    }
+      _handleTransfer(event){
+        sessionStorage.setItem('account',event.model.item.beneficiaryAccountNumber);
         this.set('route.path','/make-transaction');
+      }
+      _ajaxResponse(event){
+        console.log(event.detail.data);
+       this.transactionDetails=event.detail.data;
+      }
+      _handleBack(){
+        this.set('route.path','/user-home');
       }
 }
 

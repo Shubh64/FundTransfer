@@ -48,8 +48,8 @@ class LoginPage extends PolymerElement {
   <ajax-call id="ajax"></ajax-call>
   <iron-form id="form">
   <form>
-  <paper-input id="accountNumber" required allowed-pattern=[0-9] minlength="10" maxlength="10" label="Enter Account Number"></paper-input>
-  <paper-input id="password"  required type="password" label="Password"></paper-input>
+  <paper-input id="accountNumber" auto required allowed-pattern=[0-9] minlength="2" maxlength="8" label="Enter Account Number"></paper-input>
+  <paper-input id="password" auto  required type="password" label="Password"></paper-input>
   <span>
   <paper-button on-click="_signIn" raised id="loginBtn">LogIn</paper-button></span>
   </form>
@@ -82,10 +82,8 @@ class LoginPage extends PolymerElement {
     if(this.$.form.validate()){
   const accountNumber = this.$.accountNumber.value;
   const password=this.$.password.value;
-   if(accountNumber.length==10&&password.length>=8){
     let postObj={accountNumber,password}
-   this.$.ajax._makeAjaxCall('get',`http://localhost:3000/users`,null,'ajaxResponse')  
-    }
+   this.$.ajax._makeAjaxCall('get',`http://localhost:3000/users?customerAccountNumber=${accountNumber}&&password=${password}`,null,'ajaxResponse')  
   } 
   else{
     this.message='Enter Valid Credential'
@@ -100,7 +98,7 @@ class LoginPage extends PolymerElement {
    */
   _ajaxResponse(event)
   {
-    const data=event.detail.data;
+    const data=event.detail.data[0];
       this.message=`${data.message}`
       this.$.toast.open();
       if(event.detail.data.statusCode!=404){

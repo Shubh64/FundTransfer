@@ -51,6 +51,16 @@ class AjaxCall extends PolymerElement {
       break;
       case 'ajaxResponse': this.dispatchEvent(new CustomEvent('ajax-response', { bubbles: true, composed: true, detail: { data } }))
       break;
+      case 'beneficiaryDetails':
+      this.dispatchEvent(new CustomEvent('ajax-response', { bubbles: true, composed: true, detail: { data } }))
+      this._makeAjaxCall('get',`http://localhost:3000/users`,null,'ajaxResponse')
+      break;
+      case 'fundTransfer':
+        console.log('flag1');
+        console.log(sessionStorage.getItem('account'));
+        this.account=sessionStorage.getItem('account');
+        this._makeAjaxCall('get',`http://localhost:3000/users?customerAccountNumber=${this.account}`,null,'ajaxResponse')
+        break;
       default:
     }
   }

@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+  <script src="../../node_modules/mocha/mocha.js"></script>
+  <script src="../../node_modules/chai/chai.js"></script>
+  <script src="../../node_modules/sinon/pkg/sinon.js"></script>
+  <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
+  <script type="module" src="../../src/main-element/login-page.js"></script>
+</head>
+
+<body>
+  <test-fixture id="loginFixture">
+    <template>
+      <login-page></login-page>
+    </template>
+  </test-fixture>
+  <script>
+    describe('Login Page', function () {
+      var element = fixture('loginFixture');
+      var elementShadowRoot = element.shadowRoot;
+      describe('When the component is rendered', function () {
+        beforeEach(function () {
+          element = fixture('loginFixture');
+          elementShadowRoot = element.shadowRoot;
+        });
+        it('should render the component', function () {
+          expect(element).to.be.exist;
+          expect(elementShadowRoot).to.be.exist;
+        });
+        it('should render the mobile number input field', () => {
+          let mobileNumber = elementShadowRoot.querySelector('#mobileNumber')
+          expect(mobileNumber).to.be.exist;
+        });
+
+        // it('should render the password input field', () => {
+        //   let password = elementShadowRoot.querySelector('#password')
+        //   expect(password).to.be.exist;
+        // });
+        it('should render the request otp button', () => {
+          let otpBtn = elementShadowRoot.querySelector('#requestOtp')
+          expect(otpBtn).to.be.exist;
+          expect(otpBtn.innerHTML).to.be.equal('Request Otp');
+        });
+        describe('AND when button is clicked', ()=>{
+          it('should render the resend otp button',()=>{
+            let resendOtp = elementShadowRoot.querySelector('#resendOtp')
+          expect(resendOtp).to.be.exist;
+          expect(resendOtp.innerHTML).to.be.equal('Resend Otp');
+          })
+          it('should render the submit otp button',()=>{
+            let submitOtp = elementShadowRoot.querySelector('#submit')
+          expect(submitOtp).to.be.exist;
+          expect(submitOtp.innerHTML).to.be.equal('Submit');
+          })
+          it('should render the otp div',()=>{
+            let otpDiv = elementShadowRoot.querySelector('#otp')
+          expect(otpDiv).to.be.exist;
+          })
+        })
+        // describe(' When submit button is clicked', function () {
+        //   let submitSpy, sinonSpy;
+        //   var ajax;
+        //   var request;
+        //   var server;
+        //   var responseHeaders = {
+        //     json: { 'Content-Type': 'application/json' }
+        //   };
+
+        //   beforeEach(function () {
+        //     sinonSpy = sinon.spy();
+        //     server = sinon.fakeServer.create();
+
+        //   });
+
+        //   afterEach(function () {
+        //     server.restore();
+        //   })
+
+        //   it('should call sinonSpy()', function (done) {
+        //     let btn = elementShadowRoot.querySelector('#loginBtn');
+        //     btn.addEventListener('click', sinonSpy);
+        //     element.mobileNumber = "9876543210";
+        //     element.password = 'muthu123';
+        //     element.action = 'login';
+
+        //     flush(function () {
+        //       btn.click();
+        //       expect(sinonSpy.callCount).to.be.equal(1);
+        //       done();
+        //     });
+        //   });
+
+        //   it('should respond with correct response', function (done) {
+        //     ajax = elementShadowRoot.querySelector("#ajax");
+        //     ajax._makeAjaxCall('POST', 'http://10.117.189.176:9092/forxtransfer/customers/login',null, 'login');
+        //     server.respondWith(
+        //       'POST',
+        //       'http://10.117.189.176:9092/forxtransfer/customers/login', [
+        //       200,
+        //       responseHeaders.json,
+        //       '[{name: 13123}]'
+        //     ]
+        //     );
+        //     flush(function () {
+        //       //console.log(request);
+        //       expect(request.response).to.be.ok;
+        //       server.respond();
+        //       done();
+        //     });
+
+        //     expect(request.response.success).to.be.equal(true);
+
+
+        //   });
+
+
+
+        // });
+      });
+    })
+  </script>
+</body>
+
+</html>

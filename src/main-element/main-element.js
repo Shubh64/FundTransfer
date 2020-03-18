@@ -159,7 +159,7 @@ class MainElement extends PolymerElement {
               items: {
                 type: Array,
                 value: function () {
-                  return [{ label: 'User-Home', route: 'user-home' },{ label: 'beneficiary-details', route: 'beneficiary-details' },{ label: 'Login', route: 'login' }, { label: 'transaction-details', route: 'transaction-details' }]
+                  return []
                 }
               }
             };
